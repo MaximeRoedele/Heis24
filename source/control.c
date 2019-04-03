@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdlib.h>
 #include "control.h"
 #include "elev.h"
 #include "orders.h"
@@ -9,16 +9,41 @@ static elev_motor_direction_t motor_direction;
 
 void init_movement() {
 	elev_set_motor_direction(DIRN_DOWN);
-	while (elev_get_floor_sensor_signal() == -1){					//Så lenge ingen sensorer reagerer skal heisen bevege seg nedover
+	while (elev_get_floor_sensor_signal() == -1){					//Sï¿½ lenge ingen sensorer reagerer skal heisen bevege seg nedover
 
 	}
-	elev_set_motor_direction(DIRN_STOP);						//Når en sensor reagerer skal heisen stoppe
+	elev_set_motor_direction(DIRN_STOP);						//Nï¿½r en sensor reagerer skal heisen stoppe
 	current_floor = elev_get_floor_sensor_signal();
-	
+
 };
 
-//exec_order skal bestemme retningen til heisen og sette igang motoren etter et stopp utført av stop_if_order_at_floor eller stoppknappen.
+int next_direction(){
+	if (motor_direction )
+}
+
+//exec_order skal bestemme retningen til heisen og sette igang motoren etter et stopp utfï¿½rt av stop_if_order_at_floor eller stoppknappen.
 void exec_order() {
+	if (elev_get_floor_sensor_signal >= 0 && elev_get_floor_sensor_signal < N_FLOORS){
+		switch (current_floor) {
+			case 0:
+				int i;
+				for (i = 1; i < N_FLOORS; i++){
+					if (get_order_at_floor(i) == 1){
+						elev_set_motor_direction(DIRN_UP);
+						motor_direction = DIRN_UP;
+						break;
+					}
+				}
+				break;
+			case 1:
+				if ()
+		}
+	}
+
+	else {
+		//Stopp var trykka og vi er mellom to etasjer
+	}
+
 	//X hvis retning opp og ordre over skal den opp
 	//X hvis retning opp og ordre under og ikke ordre over skal den ned
 	//X hvis retning opp og ordre over og under skal den opp
@@ -26,38 +51,39 @@ void exec_order() {
 	//X hvis retning ned og ordre over og ikke under skal den opp
 	//X hvis retning ned og ordre over og under skal den ned
 		//trenger ikke ta hensyn til endetilfellene (etasje 0 og 3), for retningen der skiftes i gitt kode. Se main.c
-		// + - 1 tar hensyn til ordre i etasjen rett over/under og ikke generelt alle etasjen over/under, men bør gå her siden det kun er 4 etasjer. PS funker ikke. Gjør noe bedre
+		// + - 1 tar hensyn til ordre i etasjen rett over/under og ikke generelt alle etasjen over/under, men bï¿½r gï¿½ her siden det kun er 4 etasjer. PS funker ikke. Gjï¿½r noe bedre
 		if ((current_floor > 0) && (current_floor < N_FLOORS-1)) {
-			if ((get_elev_order(/* alle etasjer over */) && get_elev_order(/* alle etasjer under */)) ||
-				(motor_direction==DIRN_DOWN && get_elev_order(/* alle etasjer under */)) || (motor_direction==DIRN_UP && get_elev_order(/* alle etasjer over */))) {
+			if ((get_elev_order() && get_elev_order()) ||
+				(motor_direction==DIRN_DOWN && get_elev_order()) || (motor_direction==DIRN_UP && get_elev_order())) {
 				motor_direction = elev_set_motor_direction(motor_direction);
 			}
-			else if ((motor_direction == DIRN_DOWN && !get_elev_order(/* alle etasjer under */) && gel_elev_order(/* alle etasjer over */)) ||
-				(motor_direction == DIRN_UP && !get_elev_order(/* alle etasjer over */) && get_elev_order(/* alle etasjer under */))) {
-				motordirection = -elev_set_motor_direction(motor_direction);  //usikker på om - funker her.
+			else if ((motor_direction == DIRN_DOWN && !get_elev_order() && gel_elev_order()) ||
+				(motor_direction == DIRN_UP && !get_elev_order() && get_elev_order())) {
+				motordirection = elev_set_motor_direction((-1) * motor_direction);  //usikker pï¿½ om - funker her.
 			}
 			//start motor her
-		}																				
+		}
 
 
 }
 
-//Stop_if_order_at_floor stopper heisen på en forbipasserende etasje dersom krav for stopp er tilfredsstillt. 
+//Stop_if_order_at_floor stopper heisen pï¿½ en forbipasserende etasje dersom krav for stopp er tilfredsstillt.
 void stop_if_order_at_floor() {
 	current_floor = elev_get_floor_sensor_signal();
 	elev_set_floor_indicator(current_floor);
-	if ((get_elev_order(current_floor)) {
+	clear_orders_at_floor(current_floor);
+	if (get_elev_order(current_floor)) {
 		if ((motor_direction == DIRN_UP && get_up_order(current_floor)) ||
 			(motor_direction == DIRN_DOWN && get_down_order(current_floor))) {
-			//stop og åpne dør
+			//stop og ï¿½pne dï¿½r
 			clear_orders_at_floor(current_floor);
 		}
 	}
-	else() {
-		if (motor_direction = DIRN_UP) {													//Bør dobbeltsjekke at next_floor ikke går ut av scope
+	else {
+		if (motor_direction == DIRN_UP) {													//Bï¿½r dobbeltsjekke at next_floor ikke gï¿½r ut av scope
 			next_floor = current_floor + 1;
 		}
-		else if (motor_direction = DIRN_DOWN) {
+		else if (motor_direction == DIRN_DOWN) {
 			next_floor = current_floor - 1;
 		}
 	}

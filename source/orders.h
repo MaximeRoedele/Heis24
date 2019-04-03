@@ -1,6 +1,6 @@
 #pragma once
 #include <stdlib.h>
-
+#include <stdio.h>
 #include "elev.h"
 
 
@@ -13,6 +13,9 @@ void poll_orders();
 int get_up_order(int floor);
 int get_down_order(int floor);
 int get_elev_order(int floor);
+int get_order_at_floor(int floor);
+
+void print_orders();
 
 void clear_orders_at_floor(int floor);
 

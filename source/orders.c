@@ -1,21 +1,21 @@
 #include "elev.h"
 #include "orders.h"
-
+#include <stdio.h>
 #include <stdlib.h>
 
 static int up_orders[N_FLOORS - 1];		//Oversikt over bestillinger oppover
 static int down_orders[N_FLOORS - 1];		//Oversikt over bestillinger nedover
-static int elevator_orders[N_FLOORS];		//Oversikt over bestillinger på panelet i heisen
+static int elevator_orders[N_FLOORS];		//Oversikt over bestillinger pï¿½ panelet i heisen
 static int order_at_floor[N_FLOORS];		//Oversikt over bestillinger i etasjer
 
 
 void set_order(int floor) {										//bytt ut order
-	if (elev_get_button_signal(BUTTON_CALL_UP, floor)) {		//Sjekker om knapp er trykket inn
-		elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);			//Generelt for de tre: 
-		up_orders[floor] = 1;									//Setter lampen på bestillingsknappen for den gitte etasjen
+	if (floor < (N_FLOORS-1) && elev_get_button_signal(BUTTON_CALL_UP, floor)) {		//Sjekker om knapp er trykket inn
+		elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);			//Generelt for de tre:
+		up_orders[floor] = 1;									//Setter lampen pï¿½ bestillingsknappen for den gitte etasjen
 		order_at_floor[floor] = 1;								//og oppdaterer registrene
 	}
-	if (elev_get_button_signal(BUTTON_CALL_DOWN, floor)) {
+	if (floor > 0 && elev_get_button_signal(BUTTON_CALL_DOWN, floor)) {
 		elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 1);
 		down_orders[floor] = 1;
 		order_at_floor[floor] = 1;
@@ -24,12 +24,13 @@ void set_order(int floor) {										//bytt ut order
 		elev_set_button_lamp(BUTTON_COMMAND, floor, 1);
 		elevator_orders[floor] = 1;
 		order_at_floor[floor] = 1;
+		print_orders();
 	}
 }
 
 void poll_orders() {
 	int i;
-	for (i = 0; i < N_FLOORS; i++) {								//Går over alle 4 etasjene og sjekker om vi får igjen et signal fra en av
+	for (i = 0; i < N_FLOORS; i++) {								//Gï¿½r over alle 4 etasjene og sjekker om vi fï¿½r igjen et signal fra en av
 		set_order(i);
 	}
 }
@@ -56,22 +57,37 @@ int get_elev_order(int floor) {
 	return 0;
 }
 
+int get_order_at_floor(int floor){
+	if (order_at_floor[floor]){
+		return 1;
+	}
+	return 0;
+}
+
+void print_orders(){
+	int i;
+	printf("[");
+	for (i=0; i<N_FLOORS; i++){
+		printf("%d",elevator_orders[i]);
+	}
+	printf("]");
+}
+
 void clear_orders_at_floor(int floor) {
-	if (floor > 0) {
-		down_orders[floor] = 0;
+	if (floor > 0 && floor < N_FLOORS) {
+		down_orders[floor-1] = 0;
+		elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);
 	}
 	if (floor < (N_FLOORS - 1)) {
 		up_orders[floor] = 0;
+		elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);
 	}
 	elevator_orders[floor] = 0;
-	elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);
-	elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);
 	elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
 }
 
 void excecute_order_66() {
-	int i;														
+	int i;
 	for (i = 0; i < N_FLOORS; i++)
 		clear_orders_at_floor(i);
 }
-
