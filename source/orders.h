@@ -15,7 +15,10 @@ int get_down_order(int floor);
 int get_elev_order(int floor);
 int get_order_at_floor(int floor);
 
-void print_orders();
+int are_there_orders_above_me(int floor);
+int are_there_orders_below_me(int floor);
+
+int out_of_orders();
 
 void clear_orders_at_floor(int floor);
 

@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "orders.h"
 #include "control.h"
+#include "door.h"
 
-//git-test 2
 int main() {
     // Initialize hardware
     if (!elev_init()) {
@@ -11,7 +11,7 @@ int main() {
         return 1;
     }
 
-    init_movement();
+/*
     printf("Press STOP button to stop elevator and exit program.\n");
 
     //elev_set_motor_direction(DIRN_UP);
@@ -24,15 +24,16 @@ int main() {
             elev_set_motor_direction(DIRN_UP);
         }
         poll_orders();
-        if (elev_get_floor_sensor_signal() >= 0 && elev_get_floor_sensor_signal() < N_FLOORS){
-                stop_if_order_at_floor();
+        if (should_i_stop(elev_get_floor_sensor_signal()) && elev_get_floor_sensor_signal > 0){
+            stop_at_floor();
         }
         // Stop elevator and exit program if the stop button is pressed
         if (elev_get_stop_signal()) {
             elev_set_motor_direction(DIRN_STOP);
             break;
         }
-    }
+    }*/
+    run_elevator_fsm();
 
     return 0;
 }

@@ -24,7 +24,6 @@ void set_order(int floor) {										//bytt ut order
 		elev_set_button_lamp(BUTTON_COMMAND, floor, 1);
 		elevator_orders[floor] = 1;
 		order_at_floor[floor] = 1;
-		print_orders();
 	}
 }
 
@@ -64,13 +63,34 @@ int get_order_at_floor(int floor){
 	return 0;
 }
 
-void print_orders(){
+int are_there_orders_above_me(int floor){
 	int i;
-	printf("[");
-	for (i=0; i<N_FLOORS; i++){
-		printf("%d",elevator_orders[i]);
+	for (i=floor+1; i<N_FLOORS; i++){
+		if(get_order_at_floor(i)){
+			return 1;
+		}
 	}
-	printf("]");
+	return 0;
+}
+
+int are_there_orders_below_me(int floor){
+	int i;
+	for (i=0; i<floor; i++){
+		if(get_order_at_floor(i)){
+			return 1;
+		}
+	}
+	return 0;
+}
+
+int out_of_orders(){
+	int i;
+	for (i = 0; i < N_FLOORS; i++){
+		if (get_order_at_floor(i)){
+			return 0;
+		}
+	}
+	return 1;
 }
 
 void clear_orders_at_floor(int floor) {

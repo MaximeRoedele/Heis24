@@ -7,7 +7,7 @@
 #include "channels.h"
 #include "elev.h"
 #include "io.h"
-
+#include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
 
@@ -104,9 +104,11 @@ int elev_get_floor_sensor_signal(void) {
 }
 
 void elev_set_floor_indicator(int floor) {
-    assert(floor >= 0);
-    assert(floor < N_FLOORS);
-
+    //assert(floor >= 0);
+    //assert(floor < N_FLOORS);
+    if (floor < 0 || floor > N_FLOORS) {
+        printf("");
+    }
     // Binary encoding. One light must always be on.
     if (floor & 0x02)
         io_set_bit(LIGHT_FLOOR_IND1);
