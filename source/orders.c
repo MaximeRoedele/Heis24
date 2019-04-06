@@ -17,7 +17,7 @@ void set_order(int floor) {										//bytt ut order
 	}
 	if (floor > 0 && elev_get_button_signal(BUTTON_CALL_DOWN, floor)) {
 		elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 1);
-		down_orders[floor] = 1;
+		down_orders[floor-1] = 1;
 		order_at_floor[floor] = 1;
 	}
 	if (elev_get_button_signal(BUTTON_COMMAND, floor)) {
@@ -57,7 +57,7 @@ int get_elev_order(int floor) {
 }
 
 int get_order_at_floor(int floor){
-	if (order_at_floor[floor]){
+	if (order_at_floor[floor] == 1){
 		return 1;
 	}
 	return 0;
@@ -103,6 +103,7 @@ void clear_orders_at_floor(int floor) {
 		elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);
 	}
 	elevator_orders[floor] = 0;
+	order_at_floor[floor] = 0;
 	elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
 }
 
