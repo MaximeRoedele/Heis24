@@ -23,10 +23,10 @@ static elev_motor_direction_t motor_direction;
 void init_movement() {
 	current_state = INIT;
 	elev_set_motor_direction(DIRN_DOWN);
-	while (elev_get_floor_sensor_signal() == -1){					//S� lenge ingen sensorer reagerer skal heisen bevege seg nedover
+	while (elev_get_floor_sensor_signal() == -1){
 
 	}
-	elev_set_motor_direction(DIRN_STOP);						//N�r en sensor reagerer skal heisen stoppe
+	elev_set_motor_direction(DIRN_STOP);
 	motor_direction = DIRN_DOWN;
 	current_floor = elev_get_floor_sensor_signal();
 };
@@ -83,7 +83,6 @@ void run_elevator_fsm(){
 //-------------------------------------
 		if (elev_get_obstruction_signal()) {
 			elev_set_motor_direction(DIRN_STOP);
-			break;printf("Current floor: %d\n", current_floor);
 		}
 //--------------------------------------
 		switch (current_state) {
@@ -111,8 +110,6 @@ void run_elevator_fsm(){
 					}
 					else if (elev_get_floor_sensor_signal() == -1 && get_order_at_floor(i)){
 						float current_pos = (current_floor + next_floor)/2.0;
-						printf("Next floor: %d\n", next_floor);
-						printf("Current position: %f\n",current_pos);
 						if (i > current_pos){
 							motor_direction = DIRN_UP;
 							elev_set_motor_direction(motor_direction);
@@ -173,9 +170,7 @@ void run_elevator_fsm(){
 				if (elev_get_floor_sensor_signal()!= -1){
 					elev_set_door_open_lamp(1);
 				}
-				while (elev_get_stop_signal()==1) {
-					/* code */
-				}
+				while (elev_get_stop_signal()==1) {}
 				elev_set_stop_lamp(0);
 				if(elev_get_floor_sensor_signal()!= -1){
 					everything_is_open();
@@ -183,8 +178,6 @@ void run_elevator_fsm(){
 				}
 				current_state=IDLE;
 				break;
-
 		}
 	}
-
 }

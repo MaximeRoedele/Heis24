@@ -3,17 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int up_orders[N_FLOORS - 1];		//Oversikt over bestillinger oppover
-static int down_orders[N_FLOORS - 1];		//Oversikt over bestillinger nedover
-static int elevator_orders[N_FLOORS];		//Oversikt over bestillinger p� panelet i heisen
-static int order_at_floor[N_FLOORS];		//Oversikt over bestillinger i etasjer
+static int up_orders[N_FLOORS - 1];
+static int down_orders[N_FLOORS - 1];
+static int elevator_orders[N_FLOORS];
+static int order_at_floor[N_FLOORS];
 
 
-void set_order(int floor) {										//bytt ut order
-	if (floor < (N_FLOORS-1) && elev_get_button_signal(BUTTON_CALL_UP, floor)) {		//Sjekker om knapp er trykket inn
-		elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);			//Generelt for de tre:
-		up_orders[floor] = 1;									//Setter lampen p� bestillingsknappen for den gitte etasjen
-		order_at_floor[floor] = 1;								//og oppdaterer registrene
+void set_order(int floor) {
+	if (floor < (N_FLOORS-1) && elev_get_button_signal(BUTTON_CALL_UP, floor)) {
+		elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);
+		up_orders[floor] = 1;
+		order_at_floor[floor] = 1;
 	}
 	if (floor > 0 && elev_get_button_signal(BUTTON_CALL_DOWN, floor)) {
 		elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 1);
@@ -29,7 +29,7 @@ void set_order(int floor) {										//bytt ut order
 
 void poll_orders() {
 	int i;
-	for (i = 0; i < N_FLOORS; i++) {								//G�r over alle 4 etasjene og sjekker om vi f�r igjen et signal fra en av
+	for (i = 0; i < N_FLOORS; i++) {
 		set_order(i);
 	}
 }
