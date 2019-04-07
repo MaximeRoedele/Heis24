@@ -10,13 +10,13 @@ typedef enum
 	INIT,
 	IDLE,
 	MOVING,
-	DOOR_OPEN
-	//STOP
+	DOOR_OPEN,
+	STOP
 }state;
 
 state current_state = INIT;
 static int current_floor;
-//static int next_floor;
+static int next_floor;
 static elev_motor_direction_t motor_direction;
 
 
@@ -27,8 +27,8 @@ void init_movement() {
 
 	}
 	elev_set_motor_direction(DIRN_STOP);						//N�r en sensor reagerer skal heisen stoppe
+	motor_direction = DIRN_DOWN;
 	current_floor = elev_get_floor_sensor_signal();
-	printf("%d\n", current_floor);
 };
 
 int should_i_stop(int floor){
@@ -75,13 +75,15 @@ void stop_at_floor(){
 	clear_orders_at_floor(current_floor);
 }
 
+
+
 void run_elevator_fsm(){
 	while (1){
 
 //-------------------------------------
-		if (elev_get_stop_signal()) {
+		if (elev_get_obstruction_signal()) {
 			elev_set_motor_direction(DIRN_STOP);
-			break;
+			break;printf("Current floor: %d\n", current_floor);
 		}
 //--------------------------------------
 		switch (current_state) {
@@ -90,54 +92,98 @@ void run_elevator_fsm(){
 				current_state = IDLE;
 				break;
 			case IDLE:
+				if (elev_get_stop_signal()){
+					current_state = STOP;
+					break;
+				}
 				poll_orders();
 				int i;
 				for (i=0;i<N_FLOORS;i++){
-					if (i == current_floor && get_order_at_floor(i)){
+					if (i == elev_get_floor_sensor_signal() && get_order_at_floor(i)){
 						current_state = DOOR_OPEN;
 						break;
 					}
-					else if (get_order_at_floor(i) && i != current_floor){
+					else if (get_order_at_floor(i) && i != elev_get_floor_sensor_signal() && elev_get_floor_sensor_signal() != -1){
 						motor_direction = (i-current_floor)/(abs(i-current_floor));
 						elev_set_motor_direction(motor_direction);
+						current_state = MOVING;
+						break;
+					}
+					else if (elev_get_floor_sensor_signal() == -1 && get_order_at_floor(i)){
+						float current_pos = (current_floor + next_floor)/2.0;
+						printf("Next floor: %d\n", next_floor);
+						printf("Current position: %f\n",current_pos);
+						if (i > current_pos){
+							motor_direction = DIRN_UP;
+							elev_set_motor_direction(motor_direction);
+						}
+						else if (i < current_pos) {
+							motor_direction = DIRN_DOWN;
+							elev_set_motor_direction(motor_direction);
+						}
 						current_state = MOVING;
 						break;
 					}
 				}
 				break;
 			case MOVING:
+				if (elev_get_stop_signal()){
+					current_state = STOP;
+					break;
+				}
+				if (next_floor == 0){
+					next_floor = current_floor + motor_direction;
+				}
 				poll_orders();
-				if (should_i_stop(elev_get_floor_sensor_signal())){
+				if (elev_get_floor_sensor_signal() != -1 &&should_i_stop(elev_get_floor_sensor_signal())){
+
 					current_state = DOOR_OPEN;
-					printf("Current floor: %d\n", current_floor);
 					break;
 				}
 				break;
 			case DOOR_OPEN:
-				printf("Døra di er åpen hihi\n");
+				if (elev_get_stop_signal()){
+					current_state = STOP;
+					break;
+				}
+				next_floor = 0;
 				poll_orders();
 				stop_at_floor();
 
-				printf("%d\n", out_of_orders());
 				if (out_of_orders()){
-					printf("Ingen ordre\n");
 					current_state = IDLE;
 					break;
 				}
 				else if ((motor_direction==DIRN_DOWN && are_there_orders_below_me(current_floor) )|| (motor_direction==DIRN_UP && are_there_orders_above_me(current_floor))){
 					current_state=MOVING;
-					printf("Samme retning WOWE\n");
 					elev_set_motor_direction(motor_direction);
 					break;
 				}
 				else{
-					printf("Ikke samme sadface\n");
 					motor_direction = motor_direction *(-1);
 					elev_set_motor_direction(motor_direction);
 					current_state = MOVING;
 					break;
 				}
 				break;
+			case STOP:
+				excecute_order_66();
+				elev_set_stop_lamp(1);
+				elev_set_motor_direction(DIRN_STOP);
+				if (elev_get_floor_sensor_signal()!= -1){
+					elev_set_door_open_lamp(1);
+				}
+				while (elev_get_stop_signal()==1) {
+					/* code */
+				}
+				elev_set_stop_lamp(0);
+				if(elev_get_floor_sensor_signal()!= -1){
+					everything_is_open();
+					break;
+				}
+				current_state=IDLE;
+				break;
+
 		}
 	}
 

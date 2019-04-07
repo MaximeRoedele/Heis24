@@ -43,7 +43,7 @@ int get_up_order(int floor) {
 
 
 int get_down_order(int floor) {
-	if (down_orders[floor] && floor > 0) {
+	if (down_orders[floor-1] && floor > 0) {
 		return 1;
 	}
 	return 0;
