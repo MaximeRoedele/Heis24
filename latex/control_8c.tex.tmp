@@ -1,0 +1,107 @@
+\hypertarget{control_8c}{}\section{source/control.c File Reference}
+\label{control_8c}\index{source/control.\+c@{source/control.\+c}}
+
+
+The source-\/code of all functions in \hyperlink{control_8h}{control.\+h} and an enum for the states.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}control.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}elev.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}orders.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}door.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+Include dependency graph for control.\+c\+:
+% FIG 0
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90}{state} \{ \\*
+\hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a0cb1b2c6a7db1f1084886c98909a3f36}{I\+N\+IT}, 
+\hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90afd6a0e4343048b10646dd2976cc5ad18}{I\+D\+LE}, 
+\hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a16ebdcb23eb5337fd5bc598fa8d6035d}{M\+O\+V\+I\+NG}, 
+\hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a11915658ade106027bd75056b907539d}{D\+O\+O\+R\+\_\+\+O\+P\+EN}, 
+\\*
+\hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a679ee5320d66c8322e310daeb2ee99b8}{S\+T\+OP}
+ \}\begin{DoxyCompactList}\small\item\em Enumerators for the various states of the final state machine. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{control_8c_a21d3c4937ea0797ee85d70f63553b297}{init\+\_\+movement} ()\hypertarget{control_8c_a21d3c4937ea0797ee85d70f63553b297}{}\label{control_8c_a21d3c4937ea0797ee85d70f63553b297}
+
+\begin{DoxyCompactList}\small\item\em Initializez the elevator. Drives it from an undefined position, meaning one between two floors, to the first one below while not accepting any orders. If it is in a defined position this function does nothing. \end{DoxyCompactList}\item 
+int \hyperlink{control_8c_a58c1f80cba36d79137da067a8324b585}{should\+\_\+i\+\_\+stop} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if the elevator, on the desired floor, fulfills any stop-\/conditions described in the functional requirement. \end{DoxyCompactList}\item 
+void \hyperlink{control_8c_a6ad51495ccadd65ab9f88bb10d060b01}{stop\+\_\+at\+\_\+floor} ()\hypertarget{control_8c_a6ad51495ccadd65ab9f88bb10d060b01}{}\label{control_8c_a6ad51495ccadd65ab9f88bb10d060b01}
+
+\begin{DoxyCompactList}\small\item\em Initializez a stop at a floor. Stops the motor, opens the door and clears all orders at the floor. Uses current\+\_\+floor set in should\+\_\+i\+\_\+stop. \end{DoxyCompactList}\item 
+void \hyperlink{control_8c_ab8fc63f9ecdbe9629f3a474bf19aabb0}{run\+\_\+elevator\+\_\+fsm} ()\hypertarget{control_8c_ab8fc63f9ecdbe9629f3a474bf19aabb0}{}\label{control_8c_ab8fc63f9ecdbe9629f3a474bf19aabb0}
+
+\begin{DoxyCompactList}\small\item\em Runs the elevator F\+SM with the 5 declared states. This is the only function one needs to call in \hyperlink{main_8c_source}{main.\+c}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90}{state} {\bfseries current\+\_\+state} = \hyperlink{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a0cb1b2c6a7db1f1084886c98909a3f36}{I\+N\+IT}\hypertarget{control_8c_a91fef3f23054f428342c0c39fbdcfade}{}\label{control_8c_a91fef3f23054f428342c0c39fbdcfade}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The source-\/code of all functions in \hyperlink{control_8h}{control.\+h} and an enum for the states. 
+
+
+
+\subsection{Enumeration Type Documentation}
+\index{control.\+c@{control.\+c}!state@{state}}
+\index{state@{state}!control.\+c@{control.\+c}}
+\subsubsection[{\texorpdfstring{state}{state}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf state}}\hypertarget{control_8c_adc6e5733fc3c22f0a7b2914188c49c90}{}\label{control_8c_adc6e5733fc3c22f0a7b2914188c49c90}
+
+
+Enumerators for the various states of the final state machine. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{I\+N\+IT@{I\+N\+IT}!control.\+c@{control.\+c}}\index{control.\+c@{control.\+c}!I\+N\+IT@{I\+N\+IT}}\item[{\em 
+I\+N\+IT\hypertarget{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a0cb1b2c6a7db1f1084886c98909a3f36}{}\label{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a0cb1b2c6a7db1f1084886c98909a3f36}
+}]The initialization state of the final state machine. \index{I\+D\+LE@{I\+D\+LE}!control.\+c@{control.\+c}}\index{control.\+c@{control.\+c}!I\+D\+LE@{I\+D\+LE}}\item[{\em 
+I\+D\+LE\hypertarget{control_8c_adc6e5733fc3c22f0a7b2914188c49c90afd6a0e4343048b10646dd2976cc5ad18}{}\label{control_8c_adc6e5733fc3c22f0a7b2914188c49c90afd6a0e4343048b10646dd2976cc5ad18}
+}]The state of the elevator when it\textquotesingle{}s standing still without orders. \index{M\+O\+V\+I\+NG@{M\+O\+V\+I\+NG}!control.\+c@{control.\+c}}\index{control.\+c@{control.\+c}!M\+O\+V\+I\+NG@{M\+O\+V\+I\+NG}}\item[{\em 
+M\+O\+V\+I\+NG\hypertarget{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a16ebdcb23eb5337fd5bc598fa8d6035d}{}\label{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a16ebdcb23eb5337fd5bc598fa8d6035d}
+}]The state of the elevator when it\textquotesingle{}s not standing still. \index{D\+O\+O\+R\+\_\+\+O\+P\+EN@{D\+O\+O\+R\+\_\+\+O\+P\+EN}!control.\+c@{control.\+c}}\index{control.\+c@{control.\+c}!D\+O\+O\+R\+\_\+\+O\+P\+EN@{D\+O\+O\+R\+\_\+\+O\+P\+EN}}\item[{\em 
+D\+O\+O\+R\+\_\+\+O\+P\+EN\hypertarget{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a11915658ade106027bd75056b907539d}{}\label{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a11915658ade106027bd75056b907539d}
+}]The state of the elevator as it stops in a floor and opens the door. \index{S\+T\+OP@{S\+T\+OP}!control.\+c@{control.\+c}}\index{control.\+c@{control.\+c}!S\+T\+OP@{S\+T\+OP}}\item[{\em 
+S\+T\+OP\hypertarget{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a679ee5320d66c8322e310daeb2ee99b8}{}\label{control_8c_adc6e5733fc3c22f0a7b2914188c49c90a679ee5320d66c8322e310daeb2ee99b8}
+}]The state the elevator enters when the S\+T\+O\+P-\/button is pressed. \end{description}
+\end{Desc}
+
+
+Definition at line 15 of file control.\+c.
+
+
+
+\subsection{Function Documentation}
+\index{control.\+c@{control.\+c}!should\+\_\+i\+\_\+stop@{should\+\_\+i\+\_\+stop}}
+\index{should\+\_\+i\+\_\+stop@{should\+\_\+i\+\_\+stop}!control.\+c@{control.\+c}}
+\subsubsection[{\texorpdfstring{should\+\_\+i\+\_\+stop(int floor)}{should_i_stop(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int should\+\_\+i\+\_\+stop (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{control_8c_a58c1f80cba36d79137da067a8324b585}{}\label{control_8c_a58c1f80cba36d79137da067a8324b585}
+
+
+Checks if the elevator, on the desired floor, fulfills any stop-\/conditions described in the functional requirement. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if stop conditions are not met on the spesific floor. 1 if any of them are met and the elevator is meant to stop. 
+\end{DoxyReturn}
+
+
+Definition at line 41 of file control.\+c.
+

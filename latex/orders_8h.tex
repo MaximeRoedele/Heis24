@@ -1,0 +1,245 @@
+\hypertarget{orders_8h}{}\section{source/orders.h File Reference}
+\label{orders_8h}\index{source/orders.\+h@{source/orders.\+h}}
+
+
+A simple library handling orders from the outside and inside of the elevator, insering them into, deleting them and reading from respective lists.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}elev.\+h\char`\"{}}\\*
+Include dependency graph for orders.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{orders_8h_a30ac946af64c150a85afc7d2c38169e8}{set\+\_\+order} (int floor)
+\begin{DoxyCompactList}\small\item\em Sets an order in a floor, according to the elev\+\_\+button\+\_\+type\+\_\+t at that instant. \end{DoxyCompactList}\item 
+void \hyperlink{orders_8h_adcf2351e9d9fbe9c0f5b80266488c5dc}{poll\+\_\+orders} ()\hypertarget{orders_8h_adcf2351e9d9fbe9c0f5b80266488c5dc}{}\label{orders_8h_adcf2351e9d9fbe9c0f5b80266488c5dc}
+
+\begin{DoxyCompactList}\small\item\em Polls all 4 floors of the elevator with \hyperlink{orders_8h_a30ac946af64c150a85afc7d2c38169e8}{set\+\_\+order()} and places orders accordingly. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_a1eb611a0a3bc582b11a356ed1cbb29a4}{get\+\_\+up\+\_\+order} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if up\+\_\+orders\mbox{[}floor\mbox{]} is a non-\/zero value. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_a2b53499a8cde16a9bf9da9bbb2cab440}{get\+\_\+down\+\_\+order} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if down\+\_\+orders\mbox{[}floor\mbox{]} is a non-\/zero value. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_ac24823afde48253e32029b8378bf521e}{get\+\_\+elev\+\_\+order} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if elevator\+\_\+orders\mbox{[}floor\mbox{]} is a non-\/zero value. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_acf20a30f171233e040ea4b4b2e5f4a46}{get\+\_\+order\+\_\+at\+\_\+floor} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if order\+\_\+at\+\_\+floor\mbox{[}floor\mbox{]} is a non-\/zero value. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_a2e39c61388722175b9012e9f6184300d}{are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if there are any orders above the desired floor. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_af4107326014982df364923fd32594acc}{are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if there are any orders below the desired floor. \end{DoxyCompactList}\item 
+int \hyperlink{orders_8h_a1963dc6819215ae0ce96e13f091d0cf5}{out\+\_\+of\+\_\+orders} ()
+\begin{DoxyCompactList}\small\item\em Checks if there are any unhandled orders left. \end{DoxyCompactList}\item 
+void \hyperlink{orders_8h_af7da771f580bd51985e80a3b9d3b20aa}{clear\+\_\+orders\+\_\+at\+\_\+floor} (int floor)
+\begin{DoxyCompactList}\small\item\em Clears all orders at the desired floor. \end{DoxyCompactList}\item 
+void \hyperlink{orders_8h_adfa789617eb308aa9758573232ec8229}{excecute\+\_\+order\+\_\+66} ()\hypertarget{orders_8h_adfa789617eb308aa9758573232ec8229}{}\label{orders_8h_adfa789617eb308aa9758573232ec8229}
+
+\begin{DoxyCompactList}\small\item\em Clears all orders at all floors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A simple library handling orders from the outside and inside of the elevator, insering them into, deleting them and reading from respective lists. 
+
+
+
+\subsection{Function Documentation}
+\index{orders.\+h@{orders.\+h}!are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me@{are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me}}
+\index{are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me@{are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me(int floor)}{are_there_orders_above_me(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int are\+\_\+there\+\_\+orders\+\_\+above\+\_\+me (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_a2e39c61388722175b9012e9f6184300d}{}\label{orders_8h_a2e39c61388722175b9012e9f6184300d}
+
+
+Checks if there are any orders above the desired floor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if there are any orders above \char`\"{}floor\char`\"{} in order\+\_\+at\+\_\+floor. 0 otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 66 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me@{are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me}}
+\index{are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me@{are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me(int floor)}{are_there_orders_below_me(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int are\+\_\+there\+\_\+orders\+\_\+below\+\_\+me (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_af4107326014982df364923fd32594acc}{}\label{orders_8h_af4107326014982df364923fd32594acc}
+
+
+Checks if there are any orders below the desired floor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if there are any orders below \char`\"{}floor\char`\"{} in order\+\_\+at\+\_\+floor. 0 otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 76 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!clear\+\_\+orders\+\_\+at\+\_\+floor@{clear\+\_\+orders\+\_\+at\+\_\+floor}}
+\index{clear\+\_\+orders\+\_\+at\+\_\+floor@{clear\+\_\+orders\+\_\+at\+\_\+floor}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{clear\+\_\+orders\+\_\+at\+\_\+floor(int floor)}{clear_orders_at_floor(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}void clear\+\_\+orders\+\_\+at\+\_\+floor (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_af7da771f580bd51985e80a3b9d3b20aa}{}\label{orders_8h_af7da771f580bd51985e80a3b9d3b20aa}
+
+
+Clears all orders at the desired floor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 96 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!get\+\_\+down\+\_\+order@{get\+\_\+down\+\_\+order}}
+\index{get\+\_\+down\+\_\+order@{get\+\_\+down\+\_\+order}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{get\+\_\+down\+\_\+order(int floor)}{get_down_order(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int get\+\_\+down\+\_\+order (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_a2b53499a8cde16a9bf9da9bbb2cab440}{}\label{orders_8h_a2b53499a8cde16a9bf9da9bbb2cab440}
+
+
+Checks if down\+\_\+orders\mbox{[}floor\mbox{]} is a non-\/zero value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if down\+\_\+orders\mbox{[}floor\mbox{]} != 0. 0 if otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 45 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!get\+\_\+elev\+\_\+order@{get\+\_\+elev\+\_\+order}}
+\index{get\+\_\+elev\+\_\+order@{get\+\_\+elev\+\_\+order}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{get\+\_\+elev\+\_\+order(int floor)}{get_elev_order(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int get\+\_\+elev\+\_\+order (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_ac24823afde48253e32029b8378bf521e}{}\label{orders_8h_ac24823afde48253e32029b8378bf521e}
+
+
+Checks if elevator\+\_\+orders\mbox{[}floor\mbox{]} is a non-\/zero value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if elevator\+\_\+orders\mbox{[}floor\mbox{]} != 0. 0 if otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 52 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!get\+\_\+order\+\_\+at\+\_\+floor@{get\+\_\+order\+\_\+at\+\_\+floor}}
+\index{get\+\_\+order\+\_\+at\+\_\+floor@{get\+\_\+order\+\_\+at\+\_\+floor}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{get\+\_\+order\+\_\+at\+\_\+floor(int floor)}{get_order_at_floor(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int get\+\_\+order\+\_\+at\+\_\+floor (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_acf20a30f171233e040ea4b4b2e5f4a46}{}\label{orders_8h_acf20a30f171233e040ea4b4b2e5f4a46}
+
+
+Checks if order\+\_\+at\+\_\+floor\mbox{[}floor\mbox{]} is a non-\/zero value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if order\+\_\+at\+\_\+floor\mbox{[}floor\mbox{]} != 0. 0 if otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 59 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!get\+\_\+up\+\_\+order@{get\+\_\+up\+\_\+order}}
+\index{get\+\_\+up\+\_\+order@{get\+\_\+up\+\_\+order}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{get\+\_\+up\+\_\+order(int floor)}{get_up_order(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int get\+\_\+up\+\_\+order (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_a1eb611a0a3bc582b11a356ed1cbb29a4}{}\label{orders_8h_a1eb611a0a3bc582b11a356ed1cbb29a4}
+
+
+Checks if up\+\_\+orders\mbox{[}floor\mbox{]} is a non-\/zero value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if up\+\_\+orders\mbox{[}floor\mbox{]} != 0. 0 if otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 37 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!out\+\_\+of\+\_\+orders@{out\+\_\+of\+\_\+orders}}
+\index{out\+\_\+of\+\_\+orders@{out\+\_\+of\+\_\+orders}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{out\+\_\+of\+\_\+orders()}{out_of_orders()}}]{\setlength{\rightskip}{0pt plus 5cm}int out\+\_\+of\+\_\+orders (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_a1963dc6819215ae0ce96e13f091d0cf5}{}\label{orders_8h_a1963dc6819215ae0ce96e13f091d0cf5}
+
+
+Checks if there are any unhandled orders left. 
+
+\begin{DoxyReturn}{Returns}
+1 there are no more orders in order\+\_\+at\+\_\+floor. 0 if there are unexpended orders. 
+\end{DoxyReturn}
+
+
+Definition at line 86 of file orders.\+c.
+
+\index{orders.\+h@{orders.\+h}!set\+\_\+order@{set\+\_\+order}}
+\index{set\+\_\+order@{set\+\_\+order}!orders.\+h@{orders.\+h}}
+\subsubsection[{\texorpdfstring{set\+\_\+order(int floor)}{set_order(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}void set\+\_\+order (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{orders_8h_a30ac946af64c150a85afc7d2c38169e8}{}\label{orders_8h_a30ac946af64c150a85afc7d2c38169e8}
+
+
+Sets an order in a floor, according to the elev\+\_\+button\+\_\+type\+\_\+t at that instant. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 12 of file orders.\+c.
+

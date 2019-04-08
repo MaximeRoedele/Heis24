@@ -1,0 +1,57 @@
+\hypertarget{control_8h}{}\section{source/control.h File Reference}
+\label{control_8h}\index{source/control.\+h@{source/control.\+h}}
+
+
+A library including all the elements to control the elevator. This includes initialization, stop conditions, turning conditions and the final state machine for the complete system. To run the elevator with the worked functionality, call run\+\_\+elevator\+\_\+fsm in the \hyperlink{main_8c_source}{main.\+c} file and compile the project.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+Include dependency graph for control.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{control_8h_a21d3c4937ea0797ee85d70f63553b297}{init\+\_\+movement} ()\hypertarget{control_8h_a21d3c4937ea0797ee85d70f63553b297}{}\label{control_8h_a21d3c4937ea0797ee85d70f63553b297}
+
+\begin{DoxyCompactList}\small\item\em Initializez the elevator. Drives it from an undefined position, meaning one between two floors, to the first one below while not accepting any orders. If it is in a defined position this function does nothing. \end{DoxyCompactList}\item 
+int \hyperlink{control_8h_a58c1f80cba36d79137da067a8324b585}{should\+\_\+i\+\_\+stop} (int floor)
+\begin{DoxyCompactList}\small\item\em Checks if the elevator, on the desired floor, fulfills any stop-\/conditions described in the functional requirement. \end{DoxyCompactList}\item 
+void \hyperlink{control_8h_a6ad51495ccadd65ab9f88bb10d060b01}{stop\+\_\+at\+\_\+floor} ()\hypertarget{control_8h_a6ad51495ccadd65ab9f88bb10d060b01}{}\label{control_8h_a6ad51495ccadd65ab9f88bb10d060b01}
+
+\begin{DoxyCompactList}\small\item\em Initializez a stop at a floor. Stops the motor, opens the door and clears all orders at the floor. Uses current\+\_\+floor set in should\+\_\+i\+\_\+stop. \end{DoxyCompactList}\item 
+void \hyperlink{control_8h_ab8fc63f9ecdbe9629f3a474bf19aabb0}{run\+\_\+elevator\+\_\+fsm} ()\hypertarget{control_8h_ab8fc63f9ecdbe9629f3a474bf19aabb0}{}\label{control_8h_ab8fc63f9ecdbe9629f3a474bf19aabb0}
+
+\begin{DoxyCompactList}\small\item\em Runs the elevator F\+SM with the 5 declared states. This is the only function one needs to call in \hyperlink{main_8c_source}{main.\+c}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A library including all the elements to control the elevator. This includes initialization, stop conditions, turning conditions and the final state machine for the complete system. To run the elevator with the worked functionality, call run\+\_\+elevator\+\_\+fsm in the \hyperlink{main_8c_source}{main.\+c} file and compile the project. 
+
+
+
+\subsection{Function Documentation}
+\index{control.\+h@{control.\+h}!should\+\_\+i\+\_\+stop@{should\+\_\+i\+\_\+stop}}
+\index{should\+\_\+i\+\_\+stop@{should\+\_\+i\+\_\+stop}!control.\+h@{control.\+h}}
+\subsubsection[{\texorpdfstring{should\+\_\+i\+\_\+stop(int floor)}{should_i_stop(int floor)}}]{\setlength{\rightskip}{0pt plus 5cm}int should\+\_\+i\+\_\+stop (
+\begin{DoxyParamCaption}
+\item[{int}]{floor}
+\end{DoxyParamCaption}
+)}\hypertarget{control_8h_a58c1f80cba36d79137da067a8324b585}{}\label{control_8h_a58c1f80cba36d79137da067a8324b585}
+
+
+Checks if the elevator, on the desired floor, fulfills any stop-\/conditions described in the functional requirement. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em floor} & The desired floor.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if stop conditions are not met on the spesific floor. 1 if any of them are met and the elevator is meant to stop. 
+\end{DoxyReturn}
+
+
+Definition at line 41 of file control.\+c.
+
