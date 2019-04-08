@@ -1,3 +1,9 @@
+/**
+* @file
+* @brief The source-code of all functions in control.h and an enum for the states.
+*/
+
+
 #include <stdlib.h>
 #include "control.h"
 #include "elev.h"
@@ -5,16 +11,17 @@
 #include "door.h"
 #include <stdio.h>
 
+///Enumerators for the various states of the final state machine.
 typedef enum
 {
-	INIT,
-	IDLE,
-	MOVING,
-	DOOR_OPEN,
-	STOP
+	INIT, ///<The initialization state of the final state machine.
+	IDLE, ///<The state of the elevator when it's standing still without orders.
+	MOVING, ///<The state of the elevator when it's not standing still.
+	DOOR_OPEN, ///<The state of the elevator as it stops in a floor and opens the door.
+	STOP ///<The state the elevator enters when the STOP-button is pressed.
 }state;
 
-state current_state = INIT;
+static state current_state = INIT;
 static int current_floor;
 static int next_floor;
 static elev_motor_direction_t motor_direction;
@@ -22,12 +29,12 @@ static elev_motor_direction_t motor_direction;
 
 void init_movement() {
 	current_state = INIT;
+	motor_direction = DIRN_DOWN;
 	elev_set_motor_direction(DIRN_DOWN);
 	while (elev_get_floor_sensor_signal() == -1){
 
 	}
 	elev_set_motor_direction(DIRN_STOP);
-	motor_direction = DIRN_DOWN;
 	current_floor = elev_get_floor_sensor_signal();
 };
 
@@ -79,7 +86,6 @@ void stop_at_floor(){
 
 void run_elevator_fsm(){
 	while (1){
-
 //-------------------------------------
 		if (elev_get_obstruction_signal()) {
 			elev_set_motor_direction(DIRN_STOP);
@@ -133,7 +139,6 @@ void run_elevator_fsm(){
 				}
 				poll_orders();
 				if (elev_get_floor_sensor_signal() != -1 &&should_i_stop(elev_get_floor_sensor_signal())){
-
 					current_state = DOOR_OPEN;
 					break;
 				}
