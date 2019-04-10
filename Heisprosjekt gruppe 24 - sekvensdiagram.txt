@@ -1,0 +1,107 @@
+title Heisprosjekt gruppe 24 - sekvensdiagram
+actor Actor
+participant Control
+participant Orders
+participant Elev
+participant Door
+Actor -> Control: control_run_elevator_fsm()
+activate Control
+Control->Elev:elev_set_floor_indicator(1)
+activate Elev
+space
+deactivate Elev
+Control ->Orders:orders_poll_orders()
+activate Orders
+Control->Orders: orders_get_orders(0)
+activate Orders
+Orders ->Elev:elev_set_button_lamp(BUTTON_CALL_UP, 0, 1)
+activate Elev
+note right of Elev: Burde dette være en loop?
+space
+deactivate Elev
+Orders -->>Control: TRUE
+deactivate Orders
+Control ->Elev:elev_set_motor_direction(DIRN_DOWN)
+activate Elev
+Control ->Elev: elev_get_floor_sensor_signal()
+activate Elev
+note right of Elev: Burde dette være en loop?
+Elev -->Control: Return 0
+deactivate Elev
+Control ->>Control: control_should_i_stop()
+activate Control
+space 
+deactivate Control
+Control ->Elev:elev_set_motor_direction(DIRN_STOP)
+deactivate Elev
+Control ->Elev: elev_set_floor_indicator(0)
+activate Elev
+space
+deactivate Elev
+Control ->Door:door_everything_is_open()
+activate Door
+Door->Elev:elev_set_door_open_lamp(1)
+activate Elev
+space
+deactivate Elev
+Door->>Door:time_elapsed < trigger
+Door->Elev:elev_set_door_open_lamp(0)
+deactivate Door
+activate Elev
+space
+deactivate Elev
+Control ->Orders:orders_clear_order_at_floor(0)
+activate Orders
+Orders->Elev:elev_set_button_lamp(BUTTON_CALL_UP,0,0)
+deactivate Orders
+activate Elev
+space 
+deactivate Elev
+
+Control->Orders:orders_get_orders(3)
+activate Orders
+Orders ->Elev:elev_set_button_lamp(BUTTON_COMMAND, 3, 1)
+activate Elev
+note right of Elev: Burde dette være en loop?
+space
+deactivate Elev
+Orders -->>Control: TRUE
+deactivate Orders
+Control ->Elev:elev_set_motor_direction(DIRN_UP)
+activate Elev
+Control ->Elev: elev_get_floor_sensor_signal()
+activate Elev
+note right of Elev: Burde dette være en loop?
+Elev -->Control: Return 3
+deactivate Elev
+Control ->>Control: control_should_i_stop()
+activate Control
+space 
+deactivate Control
+Control ->Elev:elev_set_motor_direction(DIRN_STOP)
+deactivate Elev
+Control ->Elev: elev_set_floor_indicator(3)
+activate Elev
+space
+deactivate Elev
+Control ->Door:door_everything_is_open()
+activate Door
+Door->Elev:elev_set_door_open_lamp(1)
+activate Elev
+space
+deactivate Elev
+Door->>Door:time_elapsed < trigger
+Door->Elev:elev_set_door_open_lamp(0)
+deactivate Door
+activate Elev
+space
+deactivate Elev
+Control ->Orders:orders_clear_order_at_floor(3)
+activate Orders
+Orders->Elev: elev_set_button_lamp(BUTTON_COMMAND,3,0)
+deactivate Orders
+activate Elev
+space 
+deactivate Elev
+
+
