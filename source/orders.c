@@ -56,7 +56,7 @@ int orders_get_elev_order(int floor) {
 	return 0;
 }
 
-int orders_get_m_order_at_floor(int floor){
+int orders_get_order_at_floor(int floor){
 	if (m_order_at_floor[floor] == 1){
 		return 1;
 	}
@@ -66,7 +66,7 @@ int orders_get_m_order_at_floor(int floor){
 int orders_are_there_orders_above_me(int floor){
 	int i;
 	for (i=floor+1; i<N_FLOORS; i++){
-		if(orders_get_m_order_at_floor(i)){
+		if(orders_get_order_at_floor(i)){
 			return 1;
 		}
 	}
@@ -76,7 +76,7 @@ int orders_are_there_orders_above_me(int floor){
 int orders_are_there_orders_below_me(int floor){
 	int i;
 	for (i=0; i<floor; i++){
-		if(orders_get_m_order_at_floor(i)){
+		if(orders_get_order_at_floor(i)){
 			return 1;
 		}
 	}
@@ -86,7 +86,7 @@ int orders_are_there_orders_below_me(int floor){
 int orders_out_of_orders(){
 	int i;
 	for (i = 0; i < N_FLOORS; i++){
-		if (orders_get_m_order_at_floor(i)){
+		if (orders_get_order_at_floor(i)){
 			return 0;
 		}
 	}

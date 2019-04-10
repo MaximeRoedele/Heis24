@@ -50,27 +50,34 @@ int control_should_i_stop(int floor){
 	if ((m_motor_direction == DIRN_UP && orders_get_up_order(m_current_floor)) || (m_motor_direction == DIRN_DOWN && orders_get_down_order(m_current_floor))){
 		return 1;
 	}
-	else if (orders_get_m_order_at_floor(m_current_floor)){
+	else if (orders_get_order_at_floor(m_current_floor)){
 		if (!orders_are_there_orders_below_me(m_current_floor) && !orders_are_there_orders_above_me(m_current_floor)){
 			return 1;
 		}
 		if (m_motor_direction == DIRN_UP){
-			if (orders_are_there_orders_below_me(m_current_floor) && orders_get_down_order(m_current_floor-1)){
+			if(orders_are_there_orders_above_me(m_current_floor) && orders_get_down_order(m_current_floor+1)){
+				return 0;
+			}
+			else if (orders_are_there_orders_below_me(m_current_floor) && orders_get_down_order(m_current_floor-1)){
 				return 1;
 			}
-/*			else if(orders_are_there_orders_above_me(m_current_floor) && orders_get_down_order(m_current_floor+1)){
-				return 0;
-			}*/
+			else if (!orders_get_order_at_floor(m_current_floor+1) && !orders_get_order_at_floor(m_current_floor-1)&&!orders_are_there_orders_above_me(m_current_floor)){
+				return 1;
+			}
 		}
 		else if(m_motor_direction == DIRN_DOWN){
-/*			if (orders_are_there_orders_below_me(m_current_floor) && orders_get_up_order(m_current_floor-1)){
+			if (orders_are_there_orders_below_me(m_current_floor) && orders_get_up_order(m_current_floor-1)){
 				return 0;
-			}*/
-			if(orders_are_there_orders_above_me(m_current_floor) && orders_get_up_order(m_current_floor+1)){
+			}
+			else if(orders_are_there_orders_above_me(m_current_floor) && orders_get_up_order(m_current_floor+1)){
+				return 1;
+			}
+			else if (!orders_get_order_at_floor(m_current_floor+1) && !orders_get_order_at_floor(m_current_floor-1)&&!orders_are_there_orders_below_me(m_current_floor)){
 				return 1;
 			}
 		}
 	}
+
 	m_next_floor = m_motor_direction + m_current_floor;
 	return 0;
 }
@@ -100,7 +107,7 @@ void control_run_elevator_fsm(){
 				orders_poll_orders();
 				int i;
 				for (i=0;i<N_FLOORS;i++){
-					if (elev_get_floor_sensor_signal() == -1 && orders_get_m_order_at_floor(i)){
+					if (elev_get_floor_sensor_signal() == -1 && orders_get_order_at_floor(i)){
 						float current_pos = (m_current_floor + m_next_floor)/2.0;
 						if (i > current_pos){
 							m_motor_direction = DIRN_UP;
@@ -113,11 +120,11 @@ void control_run_elevator_fsm(){
 						m_current_state = MOVING;
 						break;
 					}
-					else if (i == elev_get_floor_sensor_signal() && orders_get_m_order_at_floor(i)){
+					else if (i == elev_get_floor_sensor_signal() && orders_get_order_at_floor(i)){
 						m_current_state = DOOR_OPEN;
 						break;
 					}
-					else if (orders_get_m_order_at_floor(i) && i != m_current_floor && elev_get_floor_sensor_signal() != -1){
+					else if (orders_get_order_at_floor(i) && i != m_current_floor && elev_get_floor_sensor_signal() != -1){
 						m_motor_direction = (i-m_current_floor)/(abs(i-m_current_floor));
 						elev_set_motor_direction(m_motor_direction);
 						m_current_state = MOVING;

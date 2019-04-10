@@ -60,7 +60,7 @@ int orders_get_elev_order(int floor);
 *
 * @return 1 if m_order_at_floor[floor] != 0. 0 if otherwise.
 */
-int orders_get_m_order_at_floor(int floor);
+int orders_get_order_at_floor(int floor);
 
 /**
 * @brief Checks if there are any orders above the desired floor.
