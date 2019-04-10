@@ -11,4 +11,4 @@
 /**
 * @brief Activates the doorlamp and deactivates it after 3 seconds.
 */
-void everything_is_open();
+void door_open_timer();

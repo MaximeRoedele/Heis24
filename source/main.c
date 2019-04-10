@@ -10,7 +10,7 @@ int main() {
         printf("Unable to initialize elevator hardware!\n");
         return 1;
     }
-    run_elevator_fsm();
+    control_run_elevator_fsm();
 
     return 0;
 }

@@ -5,20 +5,20 @@
 #include "elev.h"
 #include "orders.h"
 
-int time_elapsed = 0;
-int trigger = 3000;
+int m_time_elapsed = 0;
+int m_trigger = 3000;
 
-void everything_is_open(){
+void door_open_timer(){
     clock_t time_timer_start = clock();
     elev_set_door_open_lamp(1);
-    while (time_elapsed <= trigger){
-        poll_orders();
+    while (m_time_elapsed <= m_trigger){
+        orders_poll_orders();
         clock_t difference = clock() - time_timer_start;
-        time_elapsed = difference * 1000 / CLOCKS_PER_SEC;
+        m_time_elapsed = difference * 1000 / CLOCKS_PER_SEC;
         if (elev_get_stop_signal()){
             break;
         }
     }
     elev_set_door_open_lamp(0);
-    time_elapsed = 0;
+    m_time_elapsed = 0;
 }
