@@ -15,6 +15,9 @@ void everything_is_open(){
         poll_orders();
         clock_t difference = clock() - time_timer_start;
         time_elapsed = difference * 1000 / CLOCKS_PER_SEC;
+        if (elev_get_stop_signal()){
+            break;
+        }
     }
     elev_set_door_open_lamp(0);
     time_elapsed = 0;
