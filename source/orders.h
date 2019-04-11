@@ -11,18 +11,9 @@
 
 
 /**
-* @brief Sets an order in a floor, according to the elev_button_type_t at that
-* instant.
-*
-* @param[in] floor The desired floor
-*/
-void orders_set_order(int floor);
-
-
-/**
-* @brief Polls all 4 floors of the elevator with orders_set_order() and places orders
-* accordingly.
-*
+* @brief Polls all 4 floors of the elevator and places orders
+* accordingly. An order is placed according to the floor and the elev_button_type_t
+* pressed in that instant.
 */
 void orders_poll_orders();
 
@@ -101,4 +92,4 @@ void orders_clear_orders_at_floor(int floor);
 /**
 * @brief Clears all orders at all floors.
 */
-void orders_excecute_order_66();
+void orders_clear_all_orders();

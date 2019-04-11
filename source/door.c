@@ -18,6 +18,11 @@ void door_open_timer(){
         if (elev_get_stop_signal()){
             break;
         }
+        if (orders_get_order_at_floor(elev_get_floor_sensor_signal())){
+            orders_clear_orders_at_floor(elev_get_floor_sensor_signal());
+            m_time_elapsed = 0;
+            time_timer_start = clock();
+        }
     }
     elev_set_door_open_lamp(0);
     m_time_elapsed = 0;

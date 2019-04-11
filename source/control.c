@@ -36,6 +36,7 @@ void control_init_movement() {
 	}
 	elev_set_motor_direction(DIRN_STOP);
 	m_current_floor = elev_get_floor_sensor_signal();
+	elev_set_floor_indicator(m_current_floor);
 };
 
 int control_should_i_stop(int floor){
@@ -64,6 +65,9 @@ int control_should_i_stop(int floor){
 			else if (!orders_get_order_at_floor(m_current_floor+1) && !orders_get_order_at_floor(m_current_floor-1)&&!orders_are_there_orders_above_me(m_current_floor)){
 				return 1;
 			}
+			if (!orders_are_there_orders_above_me(m_current_floor)){
+				return 1;
+			}
 		}
 		else if(m_motor_direction == DIRN_DOWN){
 			if (orders_are_there_orders_below_me(m_current_floor) && orders_get_up_order(m_current_floor-1)){
@@ -73,6 +77,9 @@ int control_should_i_stop(int floor){
 				return 1;
 			}
 			else if (!orders_get_order_at_floor(m_current_floor+1) && !orders_get_order_at_floor(m_current_floor-1)&&!orders_are_there_orders_below_me(m_current_floor)){
+				return 1;
+			}
+			if (!orders_are_there_orders_below_me(m_current_floor)){
 				return 1;
 			}
 		}
@@ -85,9 +92,9 @@ int control_should_i_stop(int floor){
 
 
 void control_stop_at_floor(){
+	orders_clear_orders_at_floor(m_current_floor);
 	elev_set_motor_direction(DIRN_STOP);
 	door_open_timer();
-	orders_clear_orders_at_floor(m_current_floor);
 }
 
 
@@ -125,6 +132,7 @@ void control_run_elevator_fsm(){
 						break;
 					}
 					else if (orders_get_order_at_floor(i) && i != m_current_floor && elev_get_floor_sensor_signal() != -1){
+						//Decides the motor_direction based on the elvators current floor and the floor of the order. Normalizes and keeps the integer signed
 						m_motor_direction = (i-m_current_floor)/(abs(i-m_current_floor));
 						elev_set_motor_direction(m_motor_direction);
 						m_current_state = MOVING;
@@ -175,7 +183,7 @@ void control_run_elevator_fsm(){
 				}
 				break;
 			case STOP:
-				orders_excecute_order_66();
+				orders_clear_all_orders();
 				elev_set_stop_lamp(1);
 				elev_set_motor_direction(DIRN_STOP);
 				if (elev_get_floor_sensor_signal()!= -1){

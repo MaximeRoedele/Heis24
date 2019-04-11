@@ -8,29 +8,24 @@ static int m_down_orders[N_FLOORS - 1];
 static int m_elevator_orders[N_FLOORS];
 static int m_order_at_floor[N_FLOORS];
 
-
-void orders_set_order(int floor) {
-	if (floor < (N_FLOORS-1) && elev_get_button_signal(BUTTON_CALL_UP, floor)) {
-		elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);
-		m_up_orders[floor] = 1;
-		m_order_at_floor[floor] = 1;
-	}
-	if (floor > 0 && elev_get_button_signal(BUTTON_CALL_DOWN, floor)) {
-		elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 1);
-		m_down_orders[floor-1] = 1;
-		m_order_at_floor[floor] = 1;
-	}
-	if (elev_get_button_signal(BUTTON_COMMAND, floor)) {
-		elev_set_button_lamp(BUTTON_COMMAND, floor, 1);
-		m_elevator_orders[floor] = 1;
-		m_order_at_floor[floor] = 1;
-	}
-}
-
 void orders_poll_orders() {
 	int i;
 	for (i = 0; i < N_FLOORS; i++) {
-		orders_set_order(i);
+		if (i < (N_FLOORS-1) && elev_get_button_signal(BUTTON_CALL_UP, i)) {
+			elev_set_button_lamp(BUTTON_CALL_UP, i, 1);
+			m_up_orders[i] = 1;
+			m_order_at_floor[i] = 1;
+		}
+		if (i > 0 && elev_get_button_signal(BUTTON_CALL_DOWN, i)) {
+			elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);
+			m_down_orders[i-1] = 1;
+			m_order_at_floor[i] = 1;
+		}
+		if (elev_get_button_signal(BUTTON_COMMAND, i)) {
+			elev_set_button_lamp(BUTTON_COMMAND, i, 1);
+			m_elevator_orders[i] = 1;
+			m_order_at_floor[i] = 1;
+		}
 	}
 }
 
@@ -107,7 +102,7 @@ void orders_clear_orders_at_floor(int floor) {
 	elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
 }
 
-void orders_excecute_order_66() {
+void orders_clear_all_orders() {
 	int i;
 	for (i = 0; i < N_FLOORS; i++)
 		orders_clear_orders_at_floor(i);
